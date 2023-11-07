@@ -39,7 +39,7 @@ class DynamicMethod extends DynamicIdentifier implements DynamicMethodInterface
      * @see  method_exists()
      * @link http://php.net/manual/en/function.method-exists.php
      */
-    public function existsOn($context)
+    public function existsOn($context): bool
     {
         return method_exists($context, $this->name());
     }

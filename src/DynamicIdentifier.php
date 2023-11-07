@@ -43,7 +43,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @var string
      */
-    protected $outputFormat;
+    protected string $outputFormat;
 
     /**
      * Create a new DynamicIdentifier instance. Instead of the constructor, try
@@ -76,7 +76,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @see \Monospice\SpicyIdentifiers\Tools\CaseFormat For the available
      * output case formats
      */
-    public function setOutputFormat($caseFormat)
+    public function setOutputFormat($caseFormat): static
     {
         $this->outputFormat = $caseFormat;
 
@@ -89,7 +89,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return string The constant representing an output case format
      */
-    public function getOutputFormat()
+    public function getOutputFormat(): string
     {
         if ($this->outputFormat === null) {
             return static::$defaultCase;
@@ -103,7 +103,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return array The strings that form the identifier name
      */
-    public function parts()
+    public function parts(): array
     {
         return $this->identifierParts;
     }
@@ -117,7 +117,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @return string|null The name of the corresponding identifier part, or
      * NULL if a part doesn't exist at the specified offset
      */
-    public function part($offset)
+    public function part($offset): ?string
     {
         if (! isset($this->identifierParts[$offset])) {
             return null;
@@ -137,7 +137,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return array The array of matching integer keys
      */
-    public function keys($search = null, $caseSensitive = false)
+    public function keys($search = null, $caseSensitive = false): array
     {
         if ($search === null) {
             return array_keys($this->identifierParts);
@@ -162,7 +162,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return int The number of identifier parts
      */
-    public function getNumParts()
+    public function getNumParts(): int
     {
         return count($this->identifierParts);
     }
@@ -172,7 +172,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return string The value of the first identifier part
      */
-    public function first()
+    public function first(): ?string
     {
         if ($this->getNumParts() < 1) {
             return null;
@@ -184,9 +184,9 @@ class DynamicIdentifier implements DynamicIdentifierInterface
     /**
      * Get the identifier part at the end of the identifier name
      *
-     * @return string The value of the last identifier part
+     * @return ?string The value of the last identifier part
      */
-    public function last()
+    public function last(): ?string
     {
         if ($this->getNumParts() < 1) {
             return null;
@@ -201,7 +201,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @return string The identifier parts combined into a single string in
      * the current case format
      */
-    public function name()
+    public function name(): string
     {
         return Formatter::format(
             $this->identifierParts,
@@ -217,7 +217,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @return bool True if the identifier parts array contains a value at the
      * specified offset
      */
-    public function has($offset)
+    public function has($offset): bool
     {
         return isset($this->identifierParts[$offset]);
     }
@@ -232,7 +232,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @return bool True if the first identifier part equals the specified
      * string
      */
-    public function startsWith($startsWith, $caseSensitive = false)
+    public function startsWith($startsWith, $caseSensitive = false): bool
     {
         if (! $caseSensitive) {
             return strtolower($this->first()) === strtolower($startsWith);
@@ -251,7 +251,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @return bool True if the last identifier part equals the specified
      * string
      */
-    public function endsWith($endsWith, $caseSensitive = false)
+    public function endsWith($endsWith, $caseSensitive = false): bool
     {
         if (! $caseSensitive) {
             return strtolower($this->last()) === strtolower($endsWith);
@@ -271,7 +271,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function mergeRange($start, $end = null)
+    public function mergeRange($start, $end = null): static
     {
         if ($end === null) {
             $end = $this->getNumParts() - 1;
@@ -296,7 +296,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function append($part)
+    public function append($part): static
     {
         $this->identifierParts[] = $part;
 
@@ -310,7 +310,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function push($part)
+    public function push($part): static
     {
         return $this->append($part);
     }
@@ -322,7 +322,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function prepend($part)
+    public function prepend($part): static
     {
         array_unshift($this->identifierParts, $part);
 
@@ -337,7 +337,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function insert($offset, $part)
+    public function insert($offset, $part): static
     {
         array_splice($this->identifierParts, $offset, 0, $part);
 
@@ -349,7 +349,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function pop()
+    public function pop(): static
     {
         array_pop($this->identifierParts);
 
@@ -361,7 +361,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function shift()
+    public function shift(): static
     {
         array_shift($this->identifierParts);
 
@@ -375,7 +375,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return $this The current instance of this class for method chaining
      */
-    public function remove($offset)
+    public function remove($offset): static
     {
         array_splice($this->identifierParts, $offset, 1);
 
@@ -394,7 +394,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * @throws OutOfBoundsException If no identifier part exists for the
      * specified index
      */
-    public function replace($offset, $replacement)
+    public function replace($offset, $replacement): static
     {
         if (! array_key_exists($offset, $this->identifierParts)) {
             throw new OutOfBoundsException(
@@ -413,9 +413,9 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @param int $offset The position of the identifier part to get
      *
-     * @return string The identifier part string
+     * @return ?string The identifier part string
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return $this->part($offset);
     }
@@ -424,17 +424,17 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * Using array access, set the identifier part at the specified position
      *
      * @param int|null $offset The position to set the identifer part at
-     * @param string   $part   The value of the identifier part to set
+     * @param string   $value  The value of the identifier part to set
      *
      * @return void
      */
-    public function offsetSet($offset, $part)
+    public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
-            $this->append($part);
+            $this->append($value);
         }
 
-        $this->replace($offset, $part);
+        $this->replace($offset, $value);
     }
 
     /**
@@ -444,7 +444,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return bool True if a part exists at the specified position
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->has($offset);
     }
@@ -456,7 +456,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->remove($offset);
     }
@@ -466,7 +466,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return int The number of identifer name parts
      */
-    public function count()
+    public function count(): int
     {
         return $this->getNumParts();
     }
@@ -502,7 +502,7 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      *
      * @return array The array of identifier parts
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->parts();
     }

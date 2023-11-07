@@ -37,7 +37,7 @@ class DynamicFunction extends DynamicIdentifier implements
      * @see  function_exists()
      * @link http://php.net/manual/en/function.function-exists.php
      */
-    public function exists()
+    public function exists(): bool
     {
         return function_exists($this->name());
     }
@@ -52,7 +52,7 @@ class DynamicFunction extends DynamicIdentifier implements
      * @see  call_user_func_array()
      * @link http://php.net/manual/en/function.call-user-func-array.php
      */
-    public function call(array $arguments = [ ])
+    public function call(array $arguments = [ ]): mixed
     {
         return call_user_func_array($this->name(), $arguments);
     }
@@ -68,7 +68,7 @@ class DynamicFunction extends DynamicIdentifier implements
      * @throws BadFunctionCallException With the given message or a default
      * message that assumes that the function doesn't exist
      */
-    public function throwException($message = null)
+    public function throwException($message = null): void
     {
         if ($message === null) {
             $message = 'The function [' . $this->name() . '] does not exist.';
@@ -88,7 +88,7 @@ class DynamicFunction extends DynamicIdentifier implements
      * @throws BadFunctionCallException If the function represented by this
      * instance does not exist
      */
-    public function throwExceptionIfMissing($message = null)
+    public function throwExceptionIfMissing($message = null): static
     {
         if (! $this->exists()) {
             $this->throwException($message);
