@@ -41,9 +41,9 @@ class DynamicIdentifier implements DynamicIdentifierInterface
      * The string constant representing the case to use when outputting
      * or accessing an identifier name
      *
-     * @var string
+     * @var ?string
      */
-    protected string $outputFormat;
+    protected ?string $outputFormat = null;
 
     /**
      * Create a new DynamicIdentifier instance. Instead of the constructor, try
